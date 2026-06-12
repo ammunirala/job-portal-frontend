@@ -14,7 +14,7 @@ export default function Navbar() {
           <Briefcase size={18} />
         </div>
         <span style={{ fontWeight:700, fontSize:18 }}
-          className="gradient-text">JobPortal</span>
+          className="gradient-text">HYRO</span>
       </Link>
 
       {/* Center links */}
