@@ -36,7 +36,9 @@ export default function Jobs() {
     }
   };
 
-  useEffect(() => { fetchJobs(); }, []);
+useEffect(() => {
+  fetchJobs();
+}, []);
 
   return (
     <div style={{ minHeight:'100vh', background:'#0f0f13',

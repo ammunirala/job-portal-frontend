@@ -1,6 +1,7 @@
+import { Briefcase, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Briefcase, LogOut, User, LayoutDashboard, Search } from 'lucide-react';
+
 
 export default function Navbar() {
   const { user, logout } = useAuth();

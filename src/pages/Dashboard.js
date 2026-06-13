@@ -19,10 +19,10 @@ export default function Dashboard() {
   const [myJobs, setMyJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user?.role === 'JOBSEEKER') fetchApplications();
-    if (user?.role === 'RECRUITER') fetchMyJobs();
-  }, []);
+ useEffect(() => {
+   if (user?.role === 'JOBSEEKER') fetchApplications();
+   if (user?.role === 'RECRUITER') fetchMyJobs();
+ }, [user]);
 
   const fetchApplications = async () => {
     try {
