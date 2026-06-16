@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Jobs from './pages/Jobs';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import PostJob from './pages/PostJob';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -23,6 +24,9 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/jobs" element={<Jobs />} />
+        <Route path="/post-job" element={
+          <PrivateRoute><PostJob /></PrivateRoute>
+        } />
         <Route path="/dashboard" element={
           <PrivateRoute><Dashboard /></PrivateRoute>
         } />
