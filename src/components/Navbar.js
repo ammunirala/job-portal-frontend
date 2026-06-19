@@ -53,6 +53,11 @@ export default function Navbar() {
                 alignItems:'center', gap:6 }}>
               <User size={16} /> Profile
             </Link>
+            <Link to="/interview-prep"
+              style={{ color:'#9ca3af', fontSize:14 }}>
+              Interview Prep
+            </Link>
+
             <div className="gradient-btn"
               style={{ width:36, height:36, borderRadius:'50%',
                 fontWeight:700, fontSize:14 }}>
