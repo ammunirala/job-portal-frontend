@@ -59,11 +59,11 @@ export default function Dashboard() {
             </p>
           </div>
           {user?.role === 'RECRUITER' && (
-            <button className="btn btn-primary"
+            <Link to="/post-job" className="btn btn-primary"
               style={{ borderRadius:12, display:'flex',
-                alignItems:'center', gap:6 }}>
+                alignItems:'center', gap:6, textDecoration:'none' }}>
               <Plus size={16}/> Post Job
-            </button>
+            </Link>
           )}
         </div>
 

@@ -36,9 +36,10 @@ export default function Jobs() {
     }
   };
 
-useEffect(() => {
-  fetchJobs();
-}, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
     <div style={{ minHeight:'100vh', background:'#0f0f13',
