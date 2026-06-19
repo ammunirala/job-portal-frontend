@@ -9,6 +9,7 @@ import Jobs from './pages/Jobs';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import PostJob from './pages/PostJob';
+import JobDetail from './pages/JobDetail';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -33,6 +34,7 @@ function AppRoutes() {
         <Route path="/profile" element={
           <PrivateRoute><Profile /></PrivateRoute>
         } />
+        <Route path="/jobs/:id" element={<JobDetail />} />
       </Routes>
     </>
   );
