@@ -36,12 +36,15 @@ function AppRoutes() {
           <PrivateRoute><Profile /></PrivateRoute>
         } />
         <Route path="/jobs/:id" element={<JobDetail />} />
-        <Route path="/interview-prep" element={<InterviewPrep />} />
+
       </Routes>
     </>
   );
 }
-
+<Link to="/interview-prep"
+  style={{ color:'#9ca3af', fontSize:14 }}>
+  Interview Prep
+</Link>
 export default function App() {
   return (
     <BrowserRouter>
