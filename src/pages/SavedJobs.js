@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { Briefcase, CheckCircle, XCircle, Clock,
-  TrendingUp, Plus, MapPin } from 'lucide-react';
+  TrendingUp, Plus, MapPin, Bookmark } from 'lucide-react';
 
 const statusCfg = {
   APPLIED:     { color:'#60a5fa', bg:'rgba(96,165,250,0.1)',   Icon: Clock },
@@ -19,10 +19,10 @@ export default function Dashboard() {
   const [myJobs, setMyJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-   if (user?.role === 'JOBSEEKER') fetchApplications();
-   if (user?.role === 'RECRUITER') fetchMyJobs();
- }, [user]);
+  useEffect(() => {
+    if (user?.role === 'JOBSEEKER') fetchApplications();
+    if (user?.role === 'RECRUITER') fetchMyJobs();
+  }, [user]);
 
   const fetchApplications = async () => {
     try {
@@ -58,16 +58,28 @@ export default function Dashboard() {
                 : 'Manage your job postings'}
             </p>
           </div>
-          {user?.role === 'RECRUITER' && (
-            <Link to="/post-job" className="btn btn-primary"
-              style={{ borderRadius:12, display:'flex',
-                alignItems:'center', gap:6, textDecoration:'none' }}>
-              <Plus size={16}/> Post Job
-            </Link>
-          )}
+          <div style={{ display:'flex', gap:10 }}>
+            {user?.role === 'JOBSEEKER' && (
+              <Link to="/saved-jobs" className="btn"
+                style={{ borderRadius:12, display:'flex',
+                  alignItems:'center', gap:6, textDecoration:'none',
+                  background:'rgba(255,255,255,0.06)',
+                  border:'1px solid rgba(255,255,255,0.1)',
+                  color:'#e8e8f0', padding:'8px 16px', fontSize:14 }}>
+                <Bookmark size={15}/> Saved Jobs
+              </Link>
+            )}
+            {user?.role === 'RECRUITER' && (
+              <Link to="/post-job" className="btn btn-primary"
+                style={{ borderRadius:12, display:'flex',
+                  alignItems:'center', gap:6, textDecoration:'none' }}>
+                <Plus size={16}/> Post Job
+              </Link>
+            )}
+          </div>
         </div>
 
-        {/* Jobseeker */}
+        {/* ── JOBSEEKER ── */}
         {user?.role === 'JOBSEEKER' && (
           <>
             {/* Stat cards */}
@@ -115,7 +127,7 @@ export default function Dashboard() {
               ) : (
                 <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
                   {applications.map(app => {
-                    const cfg = statusCfg[app.status];
+                    const cfg = statusCfg[app.status] || statusCfg.APPLIED;
                     return (
                       <div key={app.id}
                         style={{ display:'flex', justifyContent:'space-between',
@@ -124,9 +136,13 @@ export default function Dashboard() {
                           borderRadius:12,
                           border:'1px solid rgba(255,255,255,0.06)' }}>
                         <div>
-                          <p style={{ fontWeight:500, fontSize:14 }}>
+                          <Link to={`/jobs/${app.jobId}`}
+                            style={{ fontWeight:500, fontSize:14,
+                              color:'#e8e8f0', textDecoration:'none' }}
+                            onMouseEnter={e => e.target.style.color='#7c6af7'}
+                            onMouseLeave={e => e.target.style.color='#e8e8f0'}>
                             {app.jobTitle}
-                          </p>
+                          </Link>
                           <p style={{ color:'#9ca3af', fontSize:12,
                             marginTop:2, display:'flex',
                             alignItems:'center', gap:4 }}>
@@ -147,7 +163,7 @@ export default function Dashboard() {
           </>
         )}
 
-        {/* Recruiter */}
+        {/* ── RECRUITER ── */}
         {user?.role === 'RECRUITER' && (
           <div className="glass" style={{ padding:24 }}>
             <h2 style={{ fontWeight:600, marginBottom:20 }}>
@@ -160,51 +176,52 @@ export default function Dashboard() {
                 <p style={{ color:'#9ca3af', fontSize:14 }}>
                   No jobs posted yet
                 </p>
+                <Link to="/post-job" className="link"
+                  style={{ fontSize:14, marginTop:8, display:'inline-block' }}>
+                  Post your first job →
+                </Link>
               </div>
             ) : (
               <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
                 {myJobs.map(job => (
                   <div key={job.id}
-                    style={{ display:'flex-start', justifyContent:'space-between',
+                    style={{ display:'flex', justifyContent:'space-between',
                       alignItems:'center', padding:'16px 20px',
                       background:'rgba(255,255,255,0.03)',
                       borderRadius:12,
                       border:'1px solid rgba(255,255,255,0.06)' }}>
                     <div>
-                      <Link
-                        to={`/jobs/${job.id}/applicants`}
-                        className="btn btn-primary"
-                        style={{
-                          textDecoration:'none',
-                          marginTop:12
-                        }}
-                      >
-                        View Applicants
-                      </Link>
-
                       <p style={{ fontWeight:500, fontSize:14 }}>
                         {job.title}
                       </p>
-
-                      <p style={{ color:'#9ca3af', fontSize:12,
-                        marginTop:2 }}>
+                      <p style={{ color:'#9ca3af', fontSize:12, marginTop:2 }}>
                         {job.location}
                       </p>
                     </div>
-                    <span style={{
-                      background: job.status === 'ACTIVE'
-                        ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)',
-                      color: job.status === 'ACTIVE' ? '#4ade80' : '#f87171',
-                      fontSize:11, padding:'4px 12px',
-                      borderRadius:999, fontWeight:500 }}>
-                      {job.status}
-                    </span>
+                    <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                      <span style={{
+                        background: job.status === 'ACTIVE'
+                          ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)',
+                        color: job.status === 'ACTIVE' ? '#4ade80' : '#f87171',
+                        fontSize:11, padding:'4px 12px',
+                        borderRadius:999, fontWeight:500 }}>
+                        {job.status}
+                      </span>
+                      <Link
+                        to={`/jobs/${job.id}/applicants`}
+                        className="btn btn-primary"
+                        style={{ textDecoration:'none', fontSize:13,
+                          padding:'6px 14px', borderRadius:10 }}>
+                        View Applicants
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
         )}
+
       </div>
     </div>
   );

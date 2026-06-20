@@ -57,6 +57,17 @@ export default function Navbar() {
               style={{ color:'#9ca3af', fontSize:14 }}>
               Interview Prep
             </Link>
+            {user?.role === 'JOBSEEKER' && (
+              <Link
+                to="/saved-jobs"
+                style={{
+                  color:'#9ca3af',
+                  fontSize:14
+                }}
+              >
+                Saved Jobs
+              </Link>
+            )}
 
             <div className="gradient-btn"
               style={{ width:36, height:36, borderRadius:'50%',
